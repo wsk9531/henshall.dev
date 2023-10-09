@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Just Great Content!</title>
+    <meta charset="UTF-8" />
+    <meta
+      name="description" content="The best content any crawler has ever seen!" lang="en"/>
+  </head>
+  <body>
+    <nav role="navigation">
+      <div>
+        <h1></h1>
+        <ul>
+          <li><a href="/">home</a></li>
+          <li><a href="about">about</a></li>
+          <li><a href="archive">archive</a></li>
+        </ul>
+      </div>
+    </nav>
+    <main>
+    
+<ol>
+  
+  <li><a href="/post/first-post">First Post</a></li>
+  
+  <li><a href="/post/post-2">Post 2</a></li>
+  
+  <li><a href="/post/post-3">Post 3</a></li>
+  
+</ol>
+
+</main>
+<footer>
+    <ul>
+        <li><a href="https://github.com/wsk9531">GitHub</a></li>
+    </ul>
+</footer>
+</body>
+</html>
+
