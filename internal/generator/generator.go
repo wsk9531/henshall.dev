@@ -29,24 +29,24 @@ func (p Post) SanitisedTitle() string {
 }
 
 const (
-	titleSeparator = "Title: "
+	titleSeparator       = "Title: "
 	descriptionSeparator = "Description: "
-	tagSeperator = "Tags: "
-	bodySeparator = "---"
+	tagSeperator         = "Tags: "
+	bodySeparator        = "---"
 )
 
 func NewPost(postFile io.Reader) (Post, error) {
 	scanner := bufio.NewScanner(postFile)
-	
+
 	readMetaLine := func(tagName string) string {
 		scanner.Scan()
 		return strings.TrimPrefix(scanner.Text(), tagName)
 	}
-	
-	return Post{Title: readMetaLine(titleSeparator), 
-		Description: readMetaLine(descriptionSeparator), 
-		Tags: strings.Split(readMetaLine(tagSeperator), ", "),
-		Body: readBody(scanner)}, nil
+
+	return Post{Title: readMetaLine(titleSeparator),
+		Description: readMetaLine(descriptionSeparator),
+		Tags:        strings.Split(readMetaLine(tagSeperator), ", "),
+		Body:        readBody(scanner)}, nil
 }
 
 func readBody(scanner *bufio.Scanner) string {
@@ -87,7 +87,7 @@ func getPost(fileSystem fs.FS, fileName string) (Post, error) {
 
 // Renderer.go
 type PostRenderer struct {
-	templ *template.Template
+	templ    *template.Template
 	mdParser *parser.Parser
 }
 
