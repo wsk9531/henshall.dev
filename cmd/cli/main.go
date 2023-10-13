@@ -7,17 +7,20 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+
+	_ "github.com/wsk9531/henshall.dev/internal/generator"
 )
 
 const (
+	CONTENT_DIR string = "pages"
 	OUTPUT_DIR string = "dist"
 	DEFAULT_PORT string = "5000"
-	
 )
+
 func main() {
 	generateCmd := flag.NewFlagSet("generate", flag.ExitOnError)
 	var contentDir string
-	generateCmd.StringVar(&contentDir, "input", "pages", "path to content for rendering")
+	generateCmd.StringVar(&contentDir, "input", CONTENT_DIR, "path to content for rendering")
 
 	serveCmd := flag.NewFlagSet("serve", flag.ExitOnError)
 	var port string
@@ -36,12 +39,20 @@ func main() {
 		fmt.Println("  dir:", contentDir)
 		fmt.Println("  tail:", generateCmd.Args())
 
-		// do stuff
+		// TODO: Add generate cli subcommand
+		// e.g.
+		// posts, _ := generator.NewPostsFromFS(os.DirFS(contentDir))
+		// log.Println(posts)
+		//postRenderer, _ := generator.NewPostRenderer()
+		// for _, page := range(posts) {
+		// 	postRenderer.Render(page)
+		// }
+
 
 	case "serve":
 		serveCmd.Parse(os.Args[2:])
 
-		url, err := parseLocalIPAddr(port)
+		url, err := parseLocalURL(port)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -56,7 +67,7 @@ func main() {
 	}
 }
 
-func parseLocalIPAddr(port string) (*url.URL, error) {
+func parseLocalURL(port string) (*url.URL, error) {
 	u, err := url.Parse(fmt.Sprintf("https://127.0.0.1:%s", port))
 	if err != nil {
 		fmt.Println(err)
