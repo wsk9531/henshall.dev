@@ -12,8 +12,11 @@ import (
 
 	ui "github.com/wsk9531/henshall.dev/ui"
 
-	"github.com/gomarkdown/markdown"
-	"github.com/gomarkdown/markdown/parser"
+	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
+	"github.com/yuin/goldmark"
+	highlighting "github.com/yuin/goldmark-highlighting/v2"
+	"github.com/yuin/goldmark/extension"
+	"github.com/yuin/goldmark/parser"
 )
 
 // post.go
@@ -88,7 +91,7 @@ func getPost(fileSystem fs.FS, fileName string) (Post, error) {
 // Renderer.go
 type PostRenderer struct {
 	templ    *template.Template
-	mdParser *parser.Parser
+	mdParser goldmark.Markdown
 }
 
 func NewPostRenderer() (*PostRenderer, error) {
@@ -97,9 +100,22 @@ func NewPostRenderer() (*PostRenderer, error) {
 		return nil, err
 	}
 
-	extensions := parser.CommonExtensions | parser.AutoHeadingIDs
-	parser := parser.NewWithExtensions(extensions)
-
+	parser := goldmark.New(
+		goldmark.WithExtensions(
+			extension.GFM,
+			extension.Typographer,
+			highlighting.NewHighlighting(
+				highlighting.WithStyle("nord"),
+				highlighting.WithFormatOptions(
+					chromahtml.WithLineNumbers(false),
+					chromahtml.WithClasses(false),
+				),
+			),
+		),
+		goldmark.WithParserOptions(
+			parser.WithAutoHeadingID(),
+		),
+	)
 	return &PostRenderer{templ: templ, mdParser: parser}, nil
 }
 
@@ -118,6 +134,10 @@ type postViewModel struct {
 
 func newPostVM(p Post, r *PostRenderer) postViewModel {
 	vm := postViewModel{Post: p}
-	vm.HTMLBody = template.HTML(markdown.ToHTML([]byte(p.Body), r.mdParser, nil))
+	var buf bytes.Buffer
+	if err := r.mdParser.Convert([]byte(p.Body), &buf); err != nil {
+		panic(err)
+	}
+	vm.HTMLBody = template.HTML(buf.Bytes())
 	return vm
 }
