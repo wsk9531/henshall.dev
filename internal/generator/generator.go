@@ -24,6 +24,7 @@ type Post struct {
 	Title       string
 	Description string
 	Body        string
+	URL         string
 	Tags        []string
 }
 
@@ -34,6 +35,7 @@ func (p Post) SanitisedTitle() string {
 const (
 	titleSeparator       = "Title: "
 	descriptionSeparator = "Description: "
+	urlSeperator         = "URL: "
 	tagSeperator         = "Tags: "
 	bodySeparator        = "---"
 )
@@ -48,6 +50,7 @@ func NewPost(postFile io.Reader) (Post, error) {
 
 	return Post{Title: readMetaLine(titleSeparator),
 		Description: readMetaLine(descriptionSeparator),
+		URL:         readMetaLine(urlSeperator),
 		Tags:        strings.Split(readMetaLine(tagSeperator), ", "),
 		Body:        readBody(scanner)}, nil
 }
@@ -120,7 +123,7 @@ func NewPostRenderer() (*PostRenderer, error) {
 }
 
 func (r *PostRenderer) Render(w io.Writer, p Post) error {
-	return r.templ.ExecuteTemplate(w, "blog.tmpl.html", newPostVM(p, r))
+	return r.templ.ExecuteTemplate(w, "page.tmpl.html", newPostVM(p, r))
 }
 
 func (r *PostRenderer) RenderIndex(w io.Writer, posts []Post) error {

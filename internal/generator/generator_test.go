@@ -15,12 +15,14 @@ func TestNewBlogPosts(t *testing.T) {
 	const (
 		firstBody = `Title: Post 1
 Description: Description 1
+URL: first.html
 Tags: tdd, go
 ---
 Let's get 
 this M.O.N.E.Y`
 		secondBody = `Title: Post 2
 Description: Description 2
+URL: second.html
 Tags: tdd, go
 ---
 Ok
@@ -45,6 +47,7 @@ Up`
 	assertPost(t, posts[0], generator.Post{
 		Title:       "Post 1",
 		Description: "Description 1",
+		URL:         "first.html",
 		Tags:        []string{"tdd", "go"},
 		Body: `Let's get 
 this M.O.N.E.Y`,
@@ -64,6 +67,7 @@ func TestRender(t *testing.T) {
 			Title: "First Post",
 			Body: `#Hello world! 
 This is my *very cool* blog post`,
+			URL:         "testpost",
 			Description: "The first of many lovely blog posts",
 			Tags:        []string{"go", "tdd"},
 		}
@@ -100,6 +104,7 @@ func BenchmarkRender(b *testing.B) {
 		aPost = generator.Post{
 			Title:       "hello world",
 			Body:        "this is a post",
+			URL:         "testpage",
 			Description: "this is a description",
 			Tags:        []string{"go", "tdd"},
 		}

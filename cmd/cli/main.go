@@ -63,7 +63,7 @@ func main() {
 			}
 
 			// write buffer to file
-			path := outputDir + "/" + page.SanitisedTitle() + ".html"
+			path := outputDir + "/" + page.URL + ".html"
 			err = os.WriteFile(path, buf.Bytes(), 0660)
 			if err != nil {
 				log.Fatal(err)
@@ -94,7 +94,7 @@ func main() {
 }
 
 func parseLocalURL(port string) (*url.URL, error) {
-	u, err := url.Parse(fmt.Sprintf("https://127.0.0.1:%s", port))
+	u, err := url.Parse(fmt.Sprintf("https://localhost:%s", port))
 	if err != nil {
 		fmt.Println(err)
 	}
