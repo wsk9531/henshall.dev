@@ -1,12 +1,18 @@
 {{template "top" .}}
-<h1>{{.Title}}</h1>
-
-<p>{{.Description}}</p>
-
-Tags:
-<ul>
-  {{range .Tags}}
-  <li>{{.}}</li>
+  {{with .Updated}}
+    {{if not .IsZero}}
+      <p>Updated on: {{.Format "2006-01-02"}}</p>
+    {{end}}
   {{end}}
-</ul>
-{{.HTMLBody}} {{template "bottom" .}}
+
+  {{.HTMLBody}}
+  
+  {{with .Tags}}
+  Tags:
+  <ul>
+    {{range .}}
+    <li>{{.}}</li>
+    {{end}}
+  </ul>
+  {{end}}
+{{template "bottom" .}}

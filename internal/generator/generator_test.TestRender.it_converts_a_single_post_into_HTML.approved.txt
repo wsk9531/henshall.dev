@@ -5,38 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>"First Post - Ben Henshall"</title>
     <meta name="description" content="The first of many lovely blog posts" lang="en"/>
-
-    <link rel="stylesheet" type="text/css" href="static/css/main.css"/>
-    <link rel="icon" href="static/img/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+    <link rel="icon" href="/static/img/favicon.ico"/>
   </head>
   <body>
-    <header>
-      <nav role="navigation">
-        <div id="wide-nav-cont">
-          <a href="/index.html">home</a>
-          <a href="/about.html">about</a>
-          <a href="https://linkedin.com/in/ben-henshall" class="nav-right" target="_tab"><img class="stroked" src="static/img/linkedin.svg"></a>
-          <a href="https://github.com/wsk9531" class="nav-right" target="_tab"><img class="stroked" src="static/img/github.svg"></a>
-        </div>
-        <ul id="narrow-nav-cont">
-            <li><a href="/index.html">home</a></li>
-            <li><a href="/about.html">about</a></li>
-            <li><a href="https://linkedin.com/in/ben-henshall">linkedin</a></li>
-            <li><a href="https://github.com/wsk9531">github</a></li>
-          </ul>
-      </nav>
-      <hr>
-    </header>
-    <main>
+        
+  <header>
+    <nav role="navigation">
+      <div id="wide-nav-cont">
+        <a href="/index.html">home</a>
+        <a href="/about.html">about</a>
+        <a href="/blog.html">blog</a>
+        <a href="https://linkedin.com/in/ben-henshall" class="nav-right" target="_tab"><img class="stroked" src="static/img/linkedin.svg"></a>
+        <a href="https://github.com/wsk9531" class="nav-right" target="_tab"><img class="stroked" src="static/img/github.svg"></a>
+      </div>
+      <ul id="narrow-nav-cont">
+          <li><a href="/index.html">home</a></li>
+          <li><a href="/about.html">about</a></li>
+          <li><a href="/blog.html">blog</a></li>
+          <li><a href="https://linkedin.com/in/ben-henshall">linkedin</a></li>
+          <li><a href="https://github.com/wsk9531">github</a></li>
+        </ul>
+    </nav>
+    <hr>
+  </header>
+
+  <main>
     
-<p>#Hello world!
+  <p>#Hello world!
 This is my <em>very cool</em> blog post</p>
  
-
-</main>
-<footer>
+  </main>
+  <footer>
     <hr>
-</footer>
+  </footer>
 </body>
 </html>
 

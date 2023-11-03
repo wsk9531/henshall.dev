@@ -46,24 +46,63 @@ func main() {
 			log.Fatal(err)
 		}
 
-		posts, err := generator.NewPostsFromFS(os.DirFS(contentDir))
-		if err != nil {
+		err = os.Mkdir(outputDir+"/blog", 0750)
+		if err != nil && !os.IsExist(err) {
 			log.Fatal(err)
 		}
-		postRenderer, err := generator.NewPostRenderer()
+
+		renderer, err := generator.NewPageRenderer()
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		for _, page := range posts {
+		// Render Pages
+		// TODO: There is a much better way to do this but this site needs deploying
+		pages, err := generator.NewPagesFromFS(os.DirFS(contentDir))
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		for _, page := range pages {
 			// Render content into buffer
 			buf := bytes.Buffer{}
-			if err := postRenderer.Render(&buf, page); err != nil {
+			if err := renderer.Render(&buf, page); err != nil {
 				log.Fatal(err)
 			}
 
 			// write buffer to file
-			path := outputDir + "/" + page.URL + ".html"
+			path := outputDir + "/" + page.Url + ".html"
+			err = os.WriteFile(path, buf.Bytes(), 0660)
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+
+		// Render Blogs
+		// Really not happy about this
+		blogs, err := generator.NewPagesFromFS(os.DirFS(contentDir + "/blog"))
+		if err != nil {
+			log.Fatal(err)
+		}
+		// Render index
+		buf := bytes.Buffer{}
+		if err := renderer.RenderIndex(&buf, blogs); err != nil {
+			log.Fatal(err)
+		}
+		err = os.WriteFile(outputDir+"/"+"blog.html", buf.Bytes(), 0660)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		for _, blog := range blogs {
+			// Render content into buffer
+			buf := bytes.Buffer{}
+			if err := renderer.RenderBlog(&buf, blog); err != nil {
+				log.Fatal(err)
+			}
+
+			// write buffer to file
+			path := outputDir + "/blog/" + blog.Url + ".html"
 			err = os.WriteFile(path, buf.Bytes(), 0660)
 			if err != nil {
 				log.Fatal(err)

@@ -1,7 +1,7 @@
-Title: About
-Description: About Ben Henshall
-URL: about
-Tags:
+---
+title: About
+description: About Ben Henshall
+url: about
 ---
 ## About me
 
