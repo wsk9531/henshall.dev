@@ -1,12 +1,10 @@
 package generator
 
 import (
-	"bufio"
 	"bytes"
-	"fmt"
 	"io"
 	"io/fs"
-	"strings"
+	"sort"
 
 	"html/template"
 
@@ -19,82 +17,43 @@ import (
 	"github.com/yuin/goldmark/parser"
 )
 
-// post.go
-type Post struct {
-	Title       string
-	Description string
-	Body        string
-	Tags        []string
-}
-
-func (p Post) SanitisedTitle() string {
-	return strings.ToLower(strings.Replace(p.Title, " ", "-", -1))
-}
-
-const (
-	titleSeparator       = "Title: "
-	descriptionSeparator = "Description: "
-	tagSeperator         = "Tags: "
-	bodySeparator        = "---"
-)
-
-func NewPost(postFile io.Reader) (Post, error) {
-	scanner := bufio.NewScanner(postFile)
-
-	readMetaLine := func(tagName string) string {
-		scanner.Scan()
-		return strings.TrimPrefix(scanner.Text(), tagName)
-	}
-
-	return Post{Title: readMetaLine(titleSeparator),
-		Description: readMetaLine(descriptionSeparator),
-		Tags:        strings.Split(readMetaLine(tagSeperator), ", "),
-		Body:        readBody(scanner)}, nil
-}
-
-func readBody(scanner *bufio.Scanner) string {
-	scanner.Scan() // ignore a line
-	buf := bytes.Buffer{}
-	for scanner.Scan() {
-		fmt.Fprintln(&buf, scanner.Text())
-	}
-	return strings.TrimSuffix(buf.String(), "\n")
-}
-
 // reader.go
-func NewPostsFromFS(filesystem fs.FS) ([]Post, error) {
+func NewPagesFromFS(filesystem fs.FS) ([]Page, error) {
 	dir, err := fs.ReadDir(filesystem, ".")
 	if err != nil {
 		return nil, err
 	}
-	var posts []Post
+	var pages []Page
 	for _, f := range dir {
-		post, err := getPost(filesystem, f.Name())
+		if f.IsDir() {
+			continue
+		}
+		page, err := getPage(filesystem, f.Name())
 		if err != nil {
 			return nil, err // todo: needs clarification, fail if one file fails or all ?
 		}
-		posts = append(posts, post)
+		pages = append(pages, page)
 	}
-	return posts, nil
+	return pages, nil
 }
 
-func getPost(fileSystem fs.FS, fileName string) (Post, error) {
-	postFile, err := fileSystem.Open(fileName)
+func getPage(fileSystem fs.FS, fileName string) (Page, error) {
+	pageFile, err := fileSystem.Open(fileName)
 	if err != nil {
-		return Post{}, err
+		return Page{}, err
 	}
-	defer postFile.Close()
+	defer pageFile.Close()
 
-	return NewPost(postFile)
+	return newPage(pageFile)
 }
 
 // Renderer.go
-type PostRenderer struct {
+type PageRenderer struct {
 	templ    *template.Template
 	mdParser goldmark.Markdown
 }
 
-func NewPostRenderer() (*PostRenderer, error) {
+func NewPageRenderer() (*PageRenderer, error) {
 	templ, err := template.ParseFS(ui.Files, "templates/*.tmpl.html")
 	if err != nil {
 		return nil, err
@@ -116,28 +75,55 @@ func NewPostRenderer() (*PostRenderer, error) {
 			parser.WithAutoHeadingID(),
 		),
 	)
-	return &PostRenderer{templ: templ, mdParser: parser}, nil
+	return &PageRenderer{templ: templ, mdParser: parser}, nil
 }
 
-func (r *PostRenderer) Render(w io.Writer, p Post) error {
-	return r.templ.ExecuteTemplate(w, "blog.tmpl.html", newPostVM(p, r))
+func (r *PageRenderer) Render(w io.Writer, p Page) error {
+	return r.templ.ExecuteTemplate(w, "page.tmpl.html", newPageVM(p, r))
 }
 
-func (r *PostRenderer) RenderIndex(w io.Writer, posts []Post) error {
-	return r.templ.ExecuteTemplate(w, "index.tmpl.html", posts)
+func (r *PageRenderer) RenderBlog(w io.Writer, p Page) error {
+	return r.templ.ExecuteTemplate(w, "blog.tmpl.html", newPageVM(p, r))
 }
 
-type postViewModel struct {
-	Post
+func (r *PageRenderer) RenderIndex(w io.Writer, pages []Page) error {
+	return r.templ.ExecuteTemplate(w, "index.tmpl.html", newIndexVM(pages, r))
+}
+
+type pageViewModel struct {
+	Page
 	HTMLBody template.HTML
 }
 
-func newPostVM(p Post, r *PostRenderer) postViewModel {
-	vm := postViewModel{Post: p}
+func newPageVM(p Page, r *PageRenderer) pageViewModel {
+	vm := pageViewModel{Page: p}
 	var buf bytes.Buffer
 	if err := r.mdParser.Convert([]byte(p.Body), &buf); err != nil {
 		panic(err)
 	}
 	vm.HTMLBody = template.HTML(buf.Bytes())
+	return vm
+}
+
+// An indexViewModel wraps a list all of the posts.
+//
+// This is a workaround for errors in shared templates like:
+// executing "top" at <.Title>: can't evaluate field Title in type []generator.Page
+// where we use the top template for both Page and Index Generation.
+//
+// TODO: Review this approach vs just using different partial templates.
+type indexViewModel struct {
+	Pages       []Page
+	Title       string
+	Description string
+}
+
+func newIndexVM(p []Page, r *PageRenderer) indexViewModel {
+	sort.SliceStable(p, func(i, j int) bool {
+		return p[i].Published.After(p[j].Published)
+	})
+	vm := indexViewModel{Pages: p}
+	vm.Title = "Blog Index"
+	vm.Description = "Blog Articles (sorted by publication date)"
 	return vm
 }

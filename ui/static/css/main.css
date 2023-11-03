@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,700;1,400&display=swap");
+
+html,
+body {
+  background-color: #19212a;
+  color: #f9f6ee;
+  font-family: "Fira Sans", sans-serif;
+  line-height: 1.42;
+}
+
+body {
+  width: 70%;
+  margin-left: 15%;
+  margin-bottom: 100px;
+}
+
+h1,
+h2,
+h3 {
+  color: #f9f6ee;
+  font-family: "Fira Sans", sans-serif;
+}
+
+header {
+  text-align: center;
+}
+
+h1 {
+  font-family: "Fira Sans", sans-serif;
+  text-align: center;
+  font-size: 60pt;
+  line-height: 1;
+}
+
+h2 {
+  font-size: 38pt;
+  line-height: 1;
+}
+
+a {
+  color: #ffc300;
+}
+
+pre {
+  padding: 1em 2em 1em 2em;
+  border-radius: 7px;
+  border: 2px solid black;
+}
+
+.nav-right {
+  float: right;
+}
+
+.nav-right > img {
+  filter: invert(100%);
+}
+
+nav > div > a {
+  margin-left: 8px;
+  margin-right: 8px;
+  padding-top: 10px;
+  padding-bottom: 8px;
+  margin-top: auto;
+  line-height: 4;
+  float: left;
+}
+
+nav > div > a > img {
+  height: 36px;
+}
+
+header > hr {
+  width: 90%;
+}
+
+footer > hr {
+  width: 90%;
+  margin-top: 80px;
+}
+
+footer {
+  text-align: center;
+}
+
+nav {
+  display: block;
+  height: 70px;
+}
+
+hr {
+  width: 40%;
+  margin-bottom: 50px;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  max-width: 78%;
+  height: auto;
+}
+
+@media only screen and (min-width: 800px) {
+  ul.top {
+    display: flex;
+  }
+
+  .top li {
+    flex: 1 1 auto;
+    display: inline-block;
+  }
+
+  #wide-nav-cont {
+    display: block;
+  }
+  #narrow-nav-cont {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  h1 {
+    font-size: 28pt;
+  }
+  nav {
+    line-height: 1;
+    height: auto;
+    text-align: left;
+  }
+
+  .nav-right {
+    float: left;
+  }
+
+  #wide-nav-cont {
+    display: none;
+  }
+  #narrow-nav-cont {
+    display: block;
+  }
+}

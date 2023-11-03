@@ -1,40 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Just Great Content!</title>
     <meta charset="UTF-8" />
-    <meta
-      name="description" content="The best content any crawler has ever seen!" lang="en"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>"Blog Index - Ben Henshall"</title>
+    <meta name="description" content="Blog Articles (sorted by publication date)" lang="en"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+    <link rel="icon" href="/static/img/favicon.ico"/>
   </head>
   <body>
+        
+  <header>
     <nav role="navigation">
-      <div>
-        <h1></h1>
-        <ul>
-          <li><a href="/">home</a></li>
-          <li><a href="about">about</a></li>
-          <li><a href="archive">archive</a></li>
-        </ul>
+      <div id="wide-nav-cont">
+        <a href="/index.html">home</a>
+        <a href="/about.html">about</a>
+        <a href="/blog.html">blog</a>
+        <a href="https://linkedin.com/in/ben-henshall" class="nav-right" target="_tab"><img class="stroked" src="static/img/linkedin.svg"></a>
+        <a href="https://github.com/wsk9531" class="nav-right" target="_tab"><img class="stroked" src="static/img/github.svg"></a>
       </div>
+      <ul id="narrow-nav-cont">
+          <li><a href="/index.html">home</a></li>
+          <li><a href="/about.html">about</a></li>
+          <li><a href="/blog.html">blog</a></li>
+          <li><a href="https://linkedin.com/in/ben-henshall">linkedin</a></li>
+          <li><a href="https://github.com/wsk9531">github</a></li>
+        </ul>
     </nav>
-    <main>
-    
-<ol>
-  
-  <li><a href="/post/first-post">First Post</a></li>
-  
-  <li><a href="/post/post-2">Post 2</a></li>
-  
-  <li><a href="/post/post-3">Post 3</a></li>
-  
-</ol>
+    <hr>
+  </header>
 
-</main>
-<footer>
-    <ul>
-        <li><a href="https://github.com/wsk9531">GitHub</a></li>
-    </ul>
-</footer>
+  <main>
+    
+<h1>Blog Index</h1>
+<ul>
+  
+  <li><a href="/blog/testpost.html">
+    
+      2023-11-03 - First Post</a></li>
+  
+  <li><a href="/blog/testpost-2.html">
+    
+      2001-01-12 - Second Post</a></li>
+  
+</ul>
+  </main>
+  <footer>
+    <hr>
+  </footer>
 </body>
 </html>
 

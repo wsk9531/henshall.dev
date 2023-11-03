@@ -1,7 +1,10 @@
 {{template "top" .}}
-<ol>
-  {{range .}}
-  <li><a href="/post/{{.SanitisedTitle}}">{{.Title}}</a></li>
+<h1>{{.Title}}</h1>
+<ul>
+  {{range .Pages}}
+  <li><a href="/blog/{{.Url}}.html">{{with .Published}}
+    {{if not .IsZero}}
+      {{.Format "2006-01-02"}} - {{end}}{{end}}{{.Title}}</a></li>
   {{end}}
-</ol>
+</ul>
 {{template "bottom" .}}
