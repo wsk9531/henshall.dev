@@ -16,8 +16,8 @@
         <a href="/index.html">home</a>
         <a href="/about.html">about</a>
         <a href="/blog.html">blog</a>
-        <a href="https://linkedin.com/in/ben-henshall" class="nav-right" target="_tab"><img class="stroked" src="static/img/linkedin.svg"></a>
-        <a href="https://github.com/wsk9531" class="nav-right" target="_tab"><img class="stroked" src="static/img/github.svg"></a>
+        <a href="https://linkedin.com/in/ben-henshall" class="nav-right" target="_tab"><img class="stroked" src="/static/img/linkedin.svg"></a>
+        <a href="https://github.com/wsk9531" class="nav-right" target="_tab"><img class="stroked" src="/static/img/github.svg"></a>
       </div>
       <ul id="narrow-nav-cont">
           <li><a href="/index.html">home</a></li>
