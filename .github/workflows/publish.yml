@@ -1,0 +1,41 @@
+name: Publish
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    name: Publish to Cloudflare Pages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.21"
+      - name: Verify dependencies
+        run: go mod verify
+      - name: Build
+        run: go build -v -o bin/ssg cmd/cli/main.go
+      - name: Run go vet
+        run: go vet ./...
+      - name: Run tests
+        run: go test -race -vet=off ./...
+      - name: Run static site page generator
+        run: bin/ssg generate -content="pages" -output="dist"
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: henshall-dev
+          directory: dist
+          # Optional: Enable this if you want to have GitHub Deployments triggered
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          # Optional: Change the Wrangler version, allows you to point to a specific version or a tag such as `beta`
+          wranglerVersion: "3"
