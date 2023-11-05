@@ -29,7 +29,7 @@ jobs:
       - name: Run static site page generator
         run: bin/ssg generate -content="pages" -output="dist"
       - name: Copy static assets 
-        run: mkdir -p /dist/static && cp -r /ui/static /dist/static
+        run: mkdir -p dist/static && cp -r ui/static dist/static
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
