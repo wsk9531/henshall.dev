@@ -26,8 +26,6 @@ jobs:
         run: go vet ./...
       - name: Run tests
         run: go test -race -vet=off ./...
-      - name: Copy static assets 
-        run: cp -r ui/static dist/static
       - name: Run static site page generator
         run: bin/ssg generate -content="pages" -output="dist"
       - name: Copy static assets 
