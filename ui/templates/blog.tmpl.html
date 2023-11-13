@@ -1,12 +1,7 @@
 {{template "top" .}}
-  {{with .Updated}}
-    {{if not .IsZero}}
-      <p>Updated on: {{.Format "2006-01-02"}}</p>
-    {{end}}
-  {{end}}
-
+  {{with .Published}}{{if not .IsZero}}<p>Published on: {{.Format "2006-01-02"}}</p>{{end}}{{end}}
+  {{with .Updated}}{{if not .IsZero}}<p>Updated on: {{.Format "2006-01-02"}}</p>{{end}}{{end}}
   {{.HTMLBody}}
-  
   {{with .Tags}}
   Tags:
   <ul>
