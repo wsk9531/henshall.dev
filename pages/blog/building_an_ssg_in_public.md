@@ -44,7 +44,7 @@ Now that things work, it is time to make things right: modularizing the generati
   - [ ] Add `robots.txt`
 - [ ] Styling
   - [x] Style `<blockquote>` elements
-  - [ ] Revise questionable (ugly) templates / styles e.g. blog publish date before h1
+  - [ ] Revise questionable (ugly) templates / styles e.g. blogs show publish date before h1
   - [ ] Update links on the `#narrow-nav-content` view (mobile) to have 48x48px gaps (suggested by [Lighthouse audit](https://developer.chrome.com/docs/lighthouse/overview/))
 
 
