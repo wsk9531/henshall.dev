@@ -32,8 +32,8 @@ Now that things work, it is time to make things right: modularizing the generati
     - [ ] Copying `static/img` and `static/css` folders in an automated + OS-agnostic way
     - [ ] Live updates & regeneration
   - [ ] New generators
-    - [ ] Add CSS generator that appends `goldmark-highlighting` CSS to my stylesheet 
-    instead of inlining with generated HTML.
+    - [ ] Add CSS generator that appends `goldmark-highlighting` CSS to my stylesheet at the copy stage,
+    instead of inlining with generated HTML. Ref: [this test](https://github.com/yuin/goldmark-highlighting/blob/37449abec8cc453aad3ea47d44583b172b20f4b1/highlighting_test.go#L246-L380)
     - [ ] Add RSS feed generator
     - [ ] Add sitemap.xml generator
 - [ ] Content
